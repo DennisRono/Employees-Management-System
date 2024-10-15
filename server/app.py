@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify,make_response
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
-from models import db, Employee, Department, Role
+from models import db, Employee, Department, Role,Customer
 from config import Config
 
 app = Flask(__name__)
@@ -122,10 +122,55 @@ class RoleResource(Resource):
         db.session.delete(role)
         db.session.commit()
         return make_response(jsonify({"message": f"Role {role.id} deleted"}), 204)
+    
+class CustomerResource(Resource):
+    def get(self, customer_id=None):
+     
+ 
+     if customer_id:
+         customer= Customer.query.filter(Customer.id==customer_id).first()
+         if customer:
+             return make_response(jsonify(customer.to_dict()), 200)
+         else:
+             return make_response(jsonify({"error":f"customer {customer.id} not found"}), 404)
+     else:
+         customers=Customer.query.all()
+         return make_response(jsonify([customer.to_dict() for customer in customers]), 200)
+     
+    def post(self):        
+        data = request.get_json()
+        new_customer = Customer(customer_name=data["customer_name"])
+        db.session.add(new_customer)
+        db.session.commit()
+        return make_response(jsonify(new_customer.to_dict()), 201)
+    
+    def patch(self, customer_id):
+        customer = Customer.query.filter(customer_id==customer_id).first()
+        if not customer:
+            return make_response(jsonify({"error": "Customer not found"}), 404)
+        data = request.get_json()
+        customer.first_name = data.get("first_name", customer.first_name)
+        customer.last_name = data.get("last_name", customer.last_name)
+        customer.email = data.get("email", customer.email)
+        customer.phone_number = data.get("phone_number", customer.phone_number)
+        db.session.commit()
+        return make_response(jsonify(customer.to_dict()), 200)
+
+    
+    def delete(self, customer_id):        
+        customer = Customer.query.filter(Customer.id==customer_id).first()
+        db.session.delete(customer)
+        db.session.commit()
+        return make_response(jsonify({"message": f"Customer {customer.id} deleted"}), 204)
+     
+    
+
+
 
 api.add_resource(EmployeeResource, "/employees", "/employees/<int:employee_id>")
 api.add_resource(DepartmentResource, "/departments", "/departments/<int:department_id>")
 api.add_resource(RoleResource, "/roles", "/roles/<int:role_id>")
+api.add_resource(CustomerResource, "/customers", "/customers/<int:id>")
 
 if __name__ == "__main__":
     app.run(debug=True)
