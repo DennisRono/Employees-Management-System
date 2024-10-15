@@ -1,5 +1,14 @@
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+
 const Home = () => {
-  return <div>Home</div>
+  return (
+    <>
+      <Header />
+      <div className="">Home</div>
+      <Footer />
+    </>
+  )
 }
 
 export default Home
