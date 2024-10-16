@@ -11,6 +11,8 @@ import NotFound from './routes/NotFound'
 import AllEmployees from './routes/AllEmployees'
 import AllCustomers from './routes/AllCustomers'
 import Dashboard from './routes/Dashboard'
+import Register from './routes/Register'
+import Login from './routes/Login'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -29,6 +31,16 @@ const router = createBrowserRouter(
       <Route
         path="/customers"
         element={<AllCustomers />}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/register"
+        element={<Register />}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/login"
+        element={<Login />}
         errorElement={<ErrorBoundary />}
       />
       <Route path="*" element={<NotFound />} errorElement={<ErrorBoundary />} />
