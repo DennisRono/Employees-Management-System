@@ -216,4 +216,4 @@ api.add_resource(AdministratorResource, "/administrators", "/administrators/<int
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port=5555,debug=True)

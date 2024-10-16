@@ -92,13 +92,16 @@ def seed_administrators(num_administrators=5):
 
 
 def seed_employee_customers(employees, customers):
-    for _ in range(50):
-        employee_customer = EmployeeCustomer(
-            employee_id=faker.random_element(employees).employee_id,
-            customer_id=faker.random_element(customers).customer_id,
-        )
-        db.session.add(employee_customer)
+    for _ in range(20):
+        employee_id = faker.random_element(employees).employee_id
+        customer_id = faker.random_element(customers).customer_id
+        
+        if not db.session.query(EmployeeCustomer).filter_by(employee_id=employee_id, customer_id=customer_id).first():
+            new_entry = EmployeeCustomer(employee_id=employee_id, customer_id=customer_id)
+            db.session.add(new_entry)
+    
     db.session.commit()
+
 
 
 def seed_admin_departments(administrators, departments):
