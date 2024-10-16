@@ -12,7 +12,7 @@ import AllCustomers from './routes/AllCustomers'
 import Dashboard from './routes/Dashboard'
 import Register from './routes/Register'
 import Login from './routes/Login'
-import Home from './routes/Dashboard'
+import Home from './routes/Home'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
