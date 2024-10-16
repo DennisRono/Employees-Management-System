@@ -48,7 +48,7 @@ const AllEmployees = () => {
                     <th className="py-3 px-6 text-left">Department</th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-600 text-sm font-light">
+                <tbody className="text-black font-light">
                   {employees.map((employee, index) => (
                     <tr
                       key={employee.employee_id}
