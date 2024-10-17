@@ -35,7 +35,7 @@ const Departments = () => {
   return (
     <>
       <Header />
-      <div className="p-8">
+      <div className="p-8 container">
         {departments && (
           <table className="min-w-full bg-white border-collapse border">
             <thead>
