@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
+import Cookies from 'js-cookie'
 
 const NewEmployee = () => {
   const [roles, setRoles] = useState([])
@@ -88,10 +89,10 @@ const NewEmployee = () => {
 
     if (validateForm()) {
       try {
-        console.log(formData)
         const response = await fetch('/api/employees', {
           method: 'POST',
           headers: {
+            Authorization: 'Bearer ' + Cookies.get('access_token'),
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
@@ -115,6 +116,7 @@ const NewEmployee = () => {
         setErrors({})
         dispatch(setDashTab('employees'))
       } catch (error) {
+        alert('Tokex has Expired')
         console.error('Error adding employee:', error)
       }
     }

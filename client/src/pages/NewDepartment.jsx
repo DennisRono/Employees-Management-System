@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
+import Cookies from 'js-cookie'
 
 const NewDepartment = () => {
   const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ const NewDepartment = () => {
         const response = await fetch('/api/departments', {
           method: 'POST',
           headers: {
+            Authorization: 'Bearer ' + Cookies.get('access_token'),
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),

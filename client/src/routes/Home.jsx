@@ -23,7 +23,15 @@ export default function Home() {
                   to="/login"
                   className="py-3 px-5 rounded-md bg-blue-600 text-white cursor-pointer"
                 >
-                  Login / Register
+                  Employee Login
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  to="/admin-login"
+                  className="py-3 px-5 rounded-md bg-blue-600 text-white cursor-pointer"
+                >
+                  Admin Login
                 </Link>
               </li>
             </ul>

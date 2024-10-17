@@ -4,8 +4,8 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from models import db, Employee, Department, Role, Customer, Administrator
 from config import Config
-from auth import auth
-from flask_jwt_extended import JWTManager
+from auth import auth, roles_required
+from flask_jwt_extended import JWTManager, jwt_required
 
 
 app = Flask(__name__)
@@ -33,6 +33,8 @@ class EmployeeResource(Resource):
             employees = Employee.query.all()
             return make_response(jsonify([emp.to_dict() for emp in employees]), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def post(self):
         data = request.get_json()
         new_employee = Employee(
@@ -47,6 +49,8 @@ class EmployeeResource(Resource):
         db.session.commit()
         return make_response(jsonify(new_employee.to_dict()), 201)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def patch(self, employee_id):
         employee = Employee.query.filter(Employee.employee_id == employee_id).first()
         data = request.get_json()
@@ -59,6 +63,8 @@ class EmployeeResource(Resource):
         db.session.commit()
         return make_response(jsonify(employee.to_dict()), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def delete(self, employee_id):
         employee = Employee.query.filter(Employee.employee_id == employee_id).first()
 
@@ -82,6 +88,8 @@ class DepartmentResource(Resource):
             departments = Department.query.all()
             return make_response(jsonify([dept.to_dict() for dept in departments]), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def post(self):
         data = request.get_json()
         new_department = Department(
@@ -91,6 +99,8 @@ class DepartmentResource(Resource):
         db.session.commit()
         return make_response(jsonify(new_department.to_dict()), 201)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def patch(self, department_id):
         department = Department.query.filter(Department.id == department_id).first()
         data = request.get_json()
@@ -101,6 +111,8 @@ class DepartmentResource(Resource):
         db.session.commit()
         return make_response(jsonify(department.to_dict()), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def delete(self, department_id):
         department = Department.query.filter(Department.id == department_id).first()
         db.session.delete(department)
@@ -120,6 +132,8 @@ class RoleResource(Resource):
             roles = Role.query.all()
             return make_response(jsonify([role.to_dict() for role in roles]), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def post(self):
         data = request.get_json()
         new_role = Role(role_name=data["role_name"])
@@ -127,6 +141,8 @@ class RoleResource(Resource):
         db.session.commit()
         return make_response(jsonify(new_role.to_dict()), 201)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def patch(self, role_id):
         role = Role.query.filter(Role.id == role_id).first()
         data = request.get_json()
@@ -134,6 +150,8 @@ class RoleResource(Resource):
         db.session.commit()
         return make_response(jsonify(role.to_dict()), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def delete(self, role_id):
         role = Role.query.filter(Role.id == role_id).first()
         db.session.delete(role)
@@ -158,6 +176,8 @@ class CustomerResource(Resource):
                 jsonify([customer.to_dict() for customer in customers]), 200
             )
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def post(self):
         data = request.get_json()
         new_customer = Customer(customer_name=data["customer_name"])
@@ -165,6 +185,8 @@ class CustomerResource(Resource):
         db.session.commit()
         return make_response(jsonify(new_customer.to_dict()), 201)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def patch(self, customer_id):
         customer = Customer.query.filter(customer_id == customer_id).first()
         if not customer:
@@ -177,6 +199,8 @@ class CustomerResource(Resource):
         db.session.commit()
         return make_response(jsonify(customer.to_dict()), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def delete(self, customer_id):
         customer = Customer.query.filter(Customer.id == customer_id).first()
         db.session.delete(customer)
@@ -205,6 +229,8 @@ class AdministratorResource(Resource):
                 jsonify([admin.to_dict() for admin in administrators]), 200
             )
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def post(self):
         data = request.get_json()
         new_admin = Administrator(
@@ -216,6 +242,8 @@ class AdministratorResource(Resource):
         db.session.commit()
         return make_response(jsonify(new_admin.to_dict()), 201)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def patch(self, admin_id):
         admin = Administrator.query.filter(Administrator.id == admin_id).first()
         if not admin:
@@ -228,6 +256,8 @@ class AdministratorResource(Resource):
         db.session.commit()
         return make_response(jsonify(admin.to_dict()), 200)
 
+    @jwt_required(optional=True)
+    @roles_required("admin")
     def delete(self, admin_id):
         admin = Administrator.query.filter(Administrator.id == admin_id).first()
         db.session.delete(admin)
