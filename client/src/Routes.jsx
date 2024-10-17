@@ -14,6 +14,7 @@ import Register from './routes/Register'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import AdminLogin from './routes/AdminLogin'
+import Departments from './routes/Departments'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,11 @@ const router = createBrowserRouter(
       <Route
         path="/customers"
         element={<AllCustomers />}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/departments"
+        element={<Departments />}
         errorElement={<ErrorBoundary />}
       />
       <Route
