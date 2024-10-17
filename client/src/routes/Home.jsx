@@ -1,7 +1,6 @@
 import { Users, Building2, UserCircle } from 'lucide-react'
 import Employees from '../assets/images/employees.jpg'
 import { Link } from 'react-router-dom'
-
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -60,6 +59,7 @@ export default function Home() {
               Key Features
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <Employee/>
               <FeatureCard
                 icon={<Users className="h-12 w-12 mb-4 text-primary" />}
                 title="Employee Management"
