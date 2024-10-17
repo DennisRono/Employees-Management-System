@@ -4,13 +4,15 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from models import db, Employee, Department, Role, Customer, Administrator
 from config import Config
+from auth import auth
+from flask_jwt_extended import JWTManager
 
-# from auth import auth_bp, jwt
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
-# app.register_blueprint(auth_bp)
+jwt = JWTManager(app)
+app.register_blueprint(auth)
 
 db.init_app(app)
 migrate = Migrate(app, db)
@@ -20,7 +22,9 @@ api = Api(app)
 class EmployeeResource(Resource):
     def get(self, employee_id=None):
         if employee_id:
-            employee = Employee.query.filter(employees.id == employee_id).first()
+            employee = Employee.query.filter(
+                Employee.employee_id == employee_id
+            ).first()
             if employee:
                 return make_response(jsonify(employee.to_dict()), 200)
             else:
@@ -44,7 +48,7 @@ class EmployeeResource(Resource):
         return make_response(jsonify(new_employee.to_dict()), 201)
 
     def patch(self, employee_id):
-        employee = Employee.query.filter(Employee.id == employee_id).first()
+        employee = Employee.query.filter(Employee.employee_id == employee_id).first()
         data = request.get_json()
         employee.first_name = data.get("first_name", employee.first_name)
         employee.last_name = data.get("last_name", employee.last_name)
@@ -56,11 +60,15 @@ class EmployeeResource(Resource):
         return make_response(jsonify(employee.to_dict()), 200)
 
     def delete(self, employee_id):
-        employee = Employee.query.filter(Employee.id == employee_id).first()
+        employee = Employee.query.filter(Employee.employee_id == employee_id).first()
+
+        if not employee:
+            return make_response(jsonify({"message": "Employee not found"}), 404)
+
         db.session.delete(employee)
         db.session.commit()
         return make_response(
-            jsonify({"message": f"Employee {employee.id} deleted"}), 204
+            jsonify({"message": f"Employee {employee.employee_id} deleted"}), 200
         )
 
 

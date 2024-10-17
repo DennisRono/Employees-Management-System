@@ -11,6 +11,7 @@ class Employee(db.Model, SerializerMixin):
     last_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     phone_number = db.Column(db.String(15))
+    password = db.Column(db.String)
 
     department_id = db.Column(db.Integer, db.ForeignKey("departments.department_id"))
     role_id = db.Column(db.Integer, db.ForeignKey("roles.role_id"))
@@ -75,6 +76,7 @@ class Administrator(db.Model, SerializerMixin):
     admin_name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     phone_number = db.Column(db.String(15))
+    password = db.Column(db.String)
 
     departments = db.relationship(
         "Department", secondary="admin_departments", back_populates="administrators"
@@ -103,3 +105,9 @@ class AdminDepartment(db.Model):
         db.Integer, db.ForeignKey("departments.department_id"), primary_key=True
     )
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+
+class TokenBlocklist(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    jti = db.Column(db.String(36), nullable=False, index=True)
+    created_at = db.Column(db.DateTime, nullable=False)

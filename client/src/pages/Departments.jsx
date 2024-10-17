@@ -1,17 +1,15 @@
 import { useEffect, useState } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 
-const AllCustomers = () => {
-  const [allCustomers, setAllCustomers] = useState(null)
+const Departments = () => {
+  const [departments, setDepartments] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [expandedCustomer, setExpandedCustomer] = useState(null) // Track expanded customer
+  const [expandedDepartment, setExpandedDepartment] = useState(null)
 
   useEffect(() => {
-    fetch('/api/customers')
+    fetch('/api/departments')
       .then((response) => response.json())
       .then((data) => {
-        setAllCustomers(data)
+        setDepartments(data)
         setLoading(false)
       })
       .catch(() => {
@@ -19,12 +17,11 @@ const AllCustomers = () => {
       })
   }, [])
 
-  // Toggles the dropdown visibility for a specific customer
-  const toggleCustomer = (customer_id) => {
-    if (expandedCustomer === customer_id) {
-      setExpandedCustomer(null) // Collapse if the same customer is clicked again
+  const toggleDepartment = (department_id) => {
+    if (expandedDepartment === department_id) {
+      setExpandedDepartment(null)
     } else {
-      setExpandedCustomer(customer_id) // Expand the clicked customer
+      setExpandedDepartment(department_id)
     }
   }
 
@@ -34,42 +31,37 @@ const AllCustomers = () => {
 
   return (
     <>
-      <Header />
-      <div className="p-8">
-        {allCustomers && (
+      <div className="">
+        <h1 className="my-2 text-2xl ml-2">Departments</h1>
+        {departments && (
           <table className="min-w-full bg-white border-collapse border">
             <thead>
               <tr>
                 <th className="border p-2 text-left">No.</th>
-                <th className="border p-2 text-left">First Name</th>
-                <th className="border p-2 text-left">Last Name</th>
-                <th className="border p-2 text-left">Email</th>
-                <th className="border p-2 text-left">Phone</th>
+                <th className="border p-2 text-left">Department Name</th>
+                <th className="border p-2 text-left">Location</th>
               </tr>
             </thead>
             <tbody>
-              {allCustomers.map((customer, index) => (
+              {departments.map((department, index) => (
                 <>
                   <tr
-                    key={customer.customer_id}
+                    key={department.department_id}
                     className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => toggleCustomer(customer.customer_id)}
+                    onClick={() => toggleDepartment(department.department_id)}
                   >
                     <td className="border p-2">{index + 1}</td>
-                    <td className="border p-2">{customer.first_name}</td>
-                    <td className="border p-2">{customer.last_name}</td>
-                    <td className="border p-2">{customer.email}</td>
-                    <td className="border p-2">{customer.phone_number}</td>
+                    <td className="border p-2">{department.department_name}</td>
+                    <td className="border p-2">{department.location}</td>
                   </tr>
-                  {expandedCustomer === customer.customer_id && (
+                  {expandedDepartment === department.department_id && (
                     <tr>
-                      <td colSpan="5" className="border p-4 bg-gray-100">
+                      <td colSpan="3" className="border p-4 bg-gray-100">
                         <div>
                           <h3 className="text-xl font-bold mb-4">
-                            Employees Assigned To {customer.first_name}{' '}
-                            {customer.last_name}
+                            Employees in {department.department_name}
                           </h3>
-                          {customer.employees.map((employee) => (
+                          {department.employees.map((employee) => (
                             <div
                               key={employee.employee_id}
                               className="border p-4 rounded-md mb-4 bg-white"
@@ -87,46 +79,66 @@ const AllCustomers = () => {
                               </p>
                               <p className="mb-1">
                                 <span className="font-bold">Phone:</span>{' '}
-                                {employee.phone_number}
+                                {employee.phone_number || 'N/A'}
                               </p>
 
                               <div className="mt-3">
                                 <h5 className="font-bold">
-                                  Department:{' '}
-                                  {employee.department.department_name}
+                                  Customers Assigned:
                                 </h5>
-                                <p>
-                                  <span className="font-bold">Location:</span>{' '}
-                                  {employee.department.location}
-                                </p>
-                                <h6 className="font-semibold mt-2">
-                                  Administrators:
-                                </h6>
-                                {employee.department.administrators.map(
-                                  (admin) => (
+                                {employee.customers.length > 0 ? (
+                                  employee.customers.map((customer) => (
                                     <div
-                                      key={admin.admin_id}
+                                      key={customer.customer_id}
                                       className="pl-4 mb-1"
                                     >
                                       <p>
                                         <span className="font-bold">Name:</span>{' '}
-                                        {admin.admin_name}
+                                        {customer.first_name}{' '}
+                                        {customer.last_name}
                                       </p>
                                       <p>
                                         <span className="font-bold">
                                           Email:
                                         </span>{' '}
-                                        {admin.email}
+                                        {customer.email}
                                       </p>
                                       <p>
                                         <span className="font-bold">
                                           Phone:
                                         </span>{' '}
-                                        {admin.phone_number}
+                                        {customer.phone_number}
                                       </p>
                                     </div>
-                                  )
+                                  ))
+                                ) : (
+                                  <p>No customers assigned</p>
                                 )}
+                              </div>
+
+                              <div className="mt-3">
+                                <h6 className="font-bold">
+                                  Department Administrators:
+                                </h6>
+                                {department.administrators.map((admin) => (
+                                  <div
+                                    key={admin.admin_id}
+                                    className="pl-4 mb-1"
+                                  >
+                                    <p>
+                                      <span className="font-bold">Name:</span>{' '}
+                                      {admin.admin_name}
+                                    </p>
+                                    <p>
+                                      <span className="font-bold">Email:</span>{' '}
+                                      {admin.email}
+                                    </p>
+                                    <p>
+                                      <span className="font-bold">Phone:</span>{' '}
+                                      {admin.phone_number}
+                                    </p>
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           ))}
@@ -140,9 +152,8 @@ const AllCustomers = () => {
           </table>
         )}
       </div>
-      <Footer />
     </>
   )
 }
 
-export default AllCustomers
+export default Departments
