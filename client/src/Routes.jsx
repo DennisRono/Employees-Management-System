@@ -7,14 +7,11 @@ import {
 } from 'react-router-dom'
 import ErrorBoundary from './routes/ErrorBoundary'
 import NotFound from './routes/NotFound'
-import AllEmployees from './routes/AllEmployees'
-import AllCustomers from './routes/AllCustomers'
 import Dashboard from './routes/Dashboard'
 import Register from './routes/Register'
 import Login from './routes/Login'
 import Home from './routes/Home'
 import AdminLogin from './routes/AdminLogin'
-import Departments from './routes/Departments'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,21 +20,6 @@ const router = createBrowserRouter(
       <Route
         path="/dash"
         element={<Dashboard />}
-        errorElement={<ErrorBoundary />}
-      />
-      <Route
-        path="/employees"
-        element={<AllEmployees />}
-        errorElement={<ErrorBoundary />}
-      />
-      <Route
-        path="/customers"
-        element={<AllCustomers />}
-        errorElement={<ErrorBoundary />}
-      />
-      <Route
-        path="/departments"
-        element={<Departments />}
         errorElement={<ErrorBoundary />}
       />
       <Route

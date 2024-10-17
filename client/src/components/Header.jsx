@@ -14,20 +14,7 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className="hidden lg:flex space-x-8 text-gray-600 font-medium">
-          <Link to="/dash" className="hover:text-gray-800">
-            Dashboard
-          </Link>
-          <Link to="/employees" className="hover:text-gray-800">
-            Employees
-          </Link>
-          <Link to="/customers" className="hover:text-gray-800">
-            Customers
-          </Link>
-          <Link to="/departments" className="hover:text-gray-800">
-            Departments
-          </Link>
-        </nav>
+        <nav className="hidden lg:flex space-x-8 text-gray-600 font-medium"></nav>
 
         <div className="flex items-center space-x-4">
           <div className="relative">

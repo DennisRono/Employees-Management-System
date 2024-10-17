@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
-import { useNavigate } from 'react-router-dom'
 
 const AllEmployees = () => {
   const [employees, setEmployees] = useState(null)
   const [loading, setLoading] = useState(true)
-  const navigate = useNavigate()
   useEffect(() => {
     const fetchAllEmployees = async () => {
       setLoading(true)
@@ -25,8 +21,7 @@ const AllEmployees = () => {
   console.log(employees)
   return (
     <>
-      <Header />
-      <div className="container mx-auto my-8 px-4">
+      <div className="mx-auto">
         {loading ? (
           <div className="flex justify-center items-center h-64">
             {/* Loading animation */}
@@ -34,6 +29,7 @@ const AllEmployees = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
+            <h1 className="my-2 text-2xl ml-2">All Employees</h1>
             {employees && employees.length > 0 ? (
               <table className="min-w-full bg-white border border-gray-200">
                 <thead>
@@ -53,9 +49,6 @@ const AllEmployees = () => {
                     <tr
                       key={employee.employee_id}
                       className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-                      onClick={() =>
-                        navigate(`/employee/${employee?.employee_id}`)
-                      }
                     >
                       <td className="py-3 px-6 text-left">{index + 1}</td>
                       <td className="py-3 px-6 text-left">
@@ -87,7 +80,6 @@ const AllEmployees = () => {
           </div>
         )}
       </div>
-      <Footer />
     </>
   )
 }
