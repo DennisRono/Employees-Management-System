@@ -1,6 +1,11 @@
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import { Home } from 'lucide-react'
+import {
+  Home,
+  Users,
+  AlignHorizontalJustifyStart,
+  UsersRound,
+} from 'lucide-react'
 import Dash from '../pages/Dash'
 import { useState } from 'react'
 import AllEmployees from '../pages/AllEmployees'
@@ -17,17 +22,19 @@ const Dashboard = () => {
     },
     {
       name: 'Employees',
-      icon: <Home style={{ color: '#fff', fontSize: 18 }} />,
+      icon: <Users style={{ color: '#fff', fontSize: 18 }} />,
       key: 'employees',
     },
     {
       name: 'Departments',
-      icon: <Home style={{ color: '#fff', fontSize: 18 }} />,
+      icon: (
+        <AlignHorizontalJustifyStart style={{ color: '#fff', fontSize: 18 }} />
+      ),
       key: 'departments',
     },
     {
       name: 'Customers',
-      icon: <Home style={{ color: '#fff', fontSize: 18 }} />,
+      icon: <UsersRound style={{ color: '#fff', fontSize: 18 }} />,
       key: 'customers',
     },
   ]
