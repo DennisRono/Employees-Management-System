@@ -17,6 +17,7 @@ const Header = () => {
         <nav className="hidden lg:flex space-x-8 text-gray-600 font-medium"></nav>
 
         <div className="flex items-center space-x-4">
+          <Link to="/">Home</Link>
           <div className="relative">
             <button className="p-2 text-gray-600 hover:text-gray-800 flex items-center">
               <User className="w-6 h-6" />
