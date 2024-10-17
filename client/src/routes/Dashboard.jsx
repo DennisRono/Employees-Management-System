@@ -5,15 +5,20 @@ import {
   Users,
   AlignHorizontalJustifyStart,
   UsersRound,
+  HousePlus,
 } from 'lucide-react'
 import Dash from '../pages/Dash'
-import { useState } from 'react'
 import AllEmployees from '../pages/AllEmployees'
 import Departments from '../pages/Departments'
 import AllCustomers from '../pages/AllCustomers'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
+import { setDashTab } from '../store/slices/dashtabSlice'
+import NewEmployee from '../pages/NewEmployee'
+import NewDepartment from '../pages/NewDepartment'
 
 const Dashboard = () => {
-  const [playtab, setPlayTab] = useState('dashboard')
+  const playtab = useAppSelector((state) => state.dashtab).tab
+  const dispatch = useAppDispatch()
   const menuItems = [
     {
       name: 'Dashboard',
@@ -37,6 +42,11 @@ const Dashboard = () => {
       icon: <UsersRound style={{ color: '#fff', fontSize: 18 }} />,
       key: 'customers',
     },
+    {
+      name: 'New Department',
+      icon: <HousePlus style={{ color: '#fff', fontSize: 18 }} />,
+      key: 'newdepartment',
+    },
   ]
   return (
     <>
@@ -51,7 +61,7 @@ const Dashboard = () => {
                   playtab === item.key ? 'bg-[#000000d7]' : 'bg-[#0005]'
                 }`}
                 onClick={() => {
-                  setPlayTab(item.key)
+                  dispatch(setDashTab(item.key))
                 }}
               >
                 {item.icon}
@@ -71,6 +81,10 @@ const Dashboard = () => {
             <Departments />
           ) : playtab === 'customers' ? (
             <AllCustomers />
+          ) : playtab === 'newemployee' ? (
+            <NewEmployee />
+          ) : playtab === 'newdepartment' ? (
+            <NewDepartment />
           ) : (
             <Dash />
           )}
