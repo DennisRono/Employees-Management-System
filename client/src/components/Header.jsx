@@ -1,5 +1,6 @@
 import { Menu, User } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
 const Header = () => {
   return (
@@ -20,7 +21,8 @@ const Header = () => {
           <Link to="/">Home</Link>
           <div className="relative">
             <button className="p-2 text-gray-600 hover:text-gray-800 flex items-center">
-              <User className="w-6 h-6" />
+              <User className="w-6 h-6 mr-2" />
+              <span>{Cookies.get('username')}</span>
             </button>
           </div>
         </div>

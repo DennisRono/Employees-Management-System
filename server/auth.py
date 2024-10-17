@@ -5,7 +5,6 @@ from flask_jwt_extended import (
     create_refresh_token,
     jwt_required,
     get_jwt_identity,
-    current_user,
 )
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_restful import Resource, Api, reqparse
@@ -161,7 +160,11 @@ class Login(Resource):
 
         access_token = create_access_token(identity=user.employee_id)
         refresh_token = create_refresh_token(identity=user.employee_id)
-        return {"access_token": access_token, "refresh_token": refresh_token}
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "name": f"{user.first_name} {user.last_name}",
+        }, 200
 
     @jwt_required(refresh=True)
     def get(self):

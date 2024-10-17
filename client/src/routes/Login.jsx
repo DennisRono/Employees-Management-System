@@ -23,6 +23,7 @@ const Login = () => {
       if (response.ok) {
         Cookies.set('access_token', data.access_token)
         Cookies.set('refresh_token', data.refresh_token)
+        Cookies.set('username', data.name)
         navigate('/dash')
       } else {
         setError(data.message || 'Failed to login')
