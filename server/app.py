@@ -4,11 +4,15 @@ from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from models import db, Employee, Department, Role, Customer, Administrator
 from config import Config
+from auth import auth
+from flask_jwt_extended import JWTManager
 
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
+jwt = JWTManager(app)
+app.register_blueprint(auth)
 
 db.init_app(app)
 migrate = Migrate(app, db)

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
-const Login = () => {
+const AdminLogin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/login-admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ const Login = () => {
         Cookies.set('refresh_token', data.refresh_token)
         navigate('/dash')
       } else {
-        setError(data.message || 'Failed to login')
+        setError(data.message || 'Failed to Login')
       }
     } catch (err) {
       setError('An error occurred. ' + err.message)
@@ -36,7 +36,7 @@ const Login = () => {
     <div className="h-screen flex items-center justify-center">
       <div className="max-w-lg w-[350px] mx-auto bg-white rounded-lg shadow-md px-8 py-10 flex flex-col items-center">
         <h1 className="text-xl font-bold text-center text-gray-700 mb-8">
-          Employee Login
+          Admin Login
         </h1>
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
           <div className="flex items-start flex-col justify-start">
@@ -87,4 +87,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default AdminLogin

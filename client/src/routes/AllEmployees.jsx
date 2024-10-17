@@ -54,28 +54,28 @@ const AllEmployees = () => {
                       key={employee.employee_id}
                       className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
                       onClick={() =>
-                        navigate(`/employee/${employee.employee_id}`)
+                        navigate(`/employee/${employee?.employee_id}`)
                       }
                     >
                       <td className="py-3 px-6 text-left">{index + 1}</td>
                       <td className="py-3 px-6 text-left">
-                        {employee.employee_id}
+                        {employee?.employee_id}
                       </td>
                       <td className="py-3 px-6 text-left">
-                        {employee.first_name}
+                        {employee?.first_name}
                       </td>
                       <td className="py-3 px-6 text-left">
-                        {employee.last_name}
+                        {employee?.last_name}
                       </td>
-                      <td className="py-3 px-6 text-left">{employee.email}</td>
+                      <td className="py-3 px-6 text-left">{employee?.email}</td>
                       <td className="py-3 px-6 text-left">
-                        {employee.phone_number || 'N/A'}
-                      </td>
-                      <td className="py-3 px-6 text-left">
-                        {employee.role.role_name || 'N/A'}
+                        {employee?.phone_number || 'N/A'}
                       </td>
                       <td className="py-3 px-6 text-left">
-                        {employee.department.department_name || 'N/A'}
+                        {employee.role?.role_name || 'N/A'}
+                      </td>
+                      <td className="py-3 px-6 text-left">
+                        {employee.department?.department_name || 'N/A'}
                       </td>
                     </tr>
                   ))}

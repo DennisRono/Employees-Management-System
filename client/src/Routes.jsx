@@ -13,6 +13,7 @@ import Dashboard from './routes/Dashboard'
 import Register from './routes/Register'
 import Login from './routes/Login'
 import Home from './routes/Home'
+import AdminLogin from './routes/AdminLogin'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,11 @@ const router = createBrowserRouter(
       <Route
         path="/login"
         element={<Login />}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/admin-login"
+        element={<AdminLogin />}
         errorElement={<ErrorBoundary />}
       />
       <Route path="*" element={<NotFound />} errorElement={<ErrorBoundary />} />

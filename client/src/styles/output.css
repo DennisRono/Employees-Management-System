@@ -718,6 +718,10 @@ video {
   width: 100vw;
 }
 
+.w-\[350px\] {
+  width: 350px;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -776,6 +780,10 @@ video {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-2 {
+  gap: 0.5rem;
 }
 
 .gap-4 {
