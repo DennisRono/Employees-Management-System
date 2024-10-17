@@ -22,7 +22,9 @@ api = Api(app)
 class EmployeeResource(Resource):
     def get(self, employee_id=None):
         if employee_id:
-            employee = Employee.query.filter(employees.id == employee_id).first()
+            employee = Employee.query.filter(
+                Employee.employee_id == employee_id
+            ).first()
             if employee:
                 return make_response(jsonify(employee.to_dict()), 200)
             else:

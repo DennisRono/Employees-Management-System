@@ -11,6 +11,7 @@ import Dashboard from './routes/Dashboard'
 import Register from './routes/Register'
 import Login from './routes/Login'
 import Home from './routes/Home'
+import Employee from './routes/Employee'
 import AdminLogin from './routes/AdminLogin'
 
 const router = createBrowserRouter(
@@ -20,6 +21,11 @@ const router = createBrowserRouter(
       <Route
         path="/dash"
         element={<Dashboard />}
+        errorElement={<ErrorBoundary />}
+      />
+      <Route
+        path="/employee/:id"
+        element={<Employee />}
         errorElement={<ErrorBoundary />}
       />
       <Route
