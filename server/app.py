@@ -5,12 +5,10 @@ from flask_restful import Api, Resource
 from models import db, Employee, Department, Role, Customer, Administrator
 from config import Config
 
-# from auth import auth_bp, jwt
 
 app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
-# app.register_blueprint(auth_bp)
 
 db.init_app(app)
 migrate = Migrate(app, db)
