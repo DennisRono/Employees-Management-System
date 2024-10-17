@@ -25,7 +25,9 @@ const Dashboard = () => {
                 className={`flex items-center gap-2 p-4 rounded cursor-pointer mb-2 overflow-hidden ${
                   playtab === item.key ? 'bg-[#000000d7]' : 'bg-[#0005]'
                 }`}
-                onClick={() => {}}
+                onClick={() => {
+                  setPlayTab(item.key)
+                }}
               >
                 {item.icon}
                 <span className="text-xs text-nowrap text-white">
