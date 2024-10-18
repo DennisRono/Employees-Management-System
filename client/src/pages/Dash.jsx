@@ -1,8 +1,10 @@
+import Cookies from 'js-cookie'
+
 const Dash = () => {
   return (
     <>
       <div className="w-9/12 h-1/6 bg-white pt-10 pl-12 rounded-xl">
-        <p className="text-blue-800 text-2xl">Welcome back, Name</p>
+        <p className="text-blue-800 text-2xl">Welcome back, {Cookies.get('username')}</p>
         <p>We&apos;re delighted to have you.</p>
       </div>
       <div className="bg-white w-9/12 h-2/6 pt-12 pl-12 rounded-2xl">
