@@ -14,12 +14,11 @@ const Dash = () => {
         <p className="pl-12 text-xl">The services we provide are:</p>
         <ol className="pl-16 list-decimal">
           <li>
-            Admins can update both their details and the Employees details
+            Admins can remove an employee and add a new department
           </li>
-          <li>Employees can view and update their details</li>
-          <li>Customers can veiw and update their details</li>
-          <li>Admins can add or remove departments</li>
-          <li>Admins can assign roles to various employees</li>
+          <li>Employees can view their details and also see the customers they are attached to</li>
+          <li>On clicking a particular department one can view emplyees in that department</li>
+          <li>You can be able to veiw the employees assigned to a particular customer</li>
         </ol>
       </div>
     </>
