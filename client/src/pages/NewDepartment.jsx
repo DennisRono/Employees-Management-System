@@ -61,7 +61,7 @@ const NewDepartment = () => {
           location: '',
         })
         setErrors({})
-        dispatch(setDashTab('employees'))
+        dispatch(setDashTab('departments'))
       } catch (error) {
         console.error('Error adding department:', error)
       }
@@ -118,7 +118,14 @@ const NewDepartment = () => {
           )}
         </div>
 
-        <div className="flex justify-end items-center">
+        <div className="flex justify-between items-center">
+          <button
+            type="button"
+            onClick={() => dispatch(setDashTab('departments'))}
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            cancel
+          </button>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

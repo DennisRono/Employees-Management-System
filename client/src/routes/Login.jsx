@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { useAppDispatch } from '../store/hooks'
+import { setIdentity } from '../store/slices/identitySlice'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,7 +26,12 @@ const Login = () => {
       if (response.ok) {
         Cookies.set('access_token', data.access_token)
         Cookies.set('refresh_token', data.refresh_token)
-        Cookies.set('username', data.name)
+        dispatch(
+          setIdentity({
+            is_logged: true,
+            user: { username: data.name, level: 'employee' },
+          })
+        )
         navigate('/dash')
       } else {
         setError(data.message || 'Failed to login')

@@ -19,6 +19,7 @@ import Roles from '../pages/Roles'
 import Role from '../pages/Role'
 import NewRole from '../pages/NewRole'
 import UpdateRole from '../pages/UpdateRole'
+import UpdateDepartment from '../pages/UpdateDepartment'
 
 const Dashboard = () => {
   const playtab = useAppSelector((state) => state.dashtab).tab
@@ -97,6 +98,8 @@ const Dashboard = () => {
             <NewRole />
           ) : playtab === 'updaterole' ? (
             <UpdateRole />
+          ) : playtab === 'updatedepartment' ? (
+            <UpdateDepartment />
           ) : (
             <Dash />
           )}

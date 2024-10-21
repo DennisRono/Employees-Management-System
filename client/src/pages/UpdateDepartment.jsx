@@ -4,26 +4,32 @@ import { setDashTab } from '../store/slices/dashtabSlice'
 import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 
-const UpdateRole = () => {
-  const role = useAppSelector((state) => state.cache).id
-  const [editRoleData, setEditRoleData] = useState({
-    role_name: role.role_name,
+const UpdateDepartment = () => {
+  const department = useAppSelector((state) => state.cache).id
+  const [editDepartmentData, setEditDepartmentData] = useState({
+    department_name: department.department_name,
+    department_location: department.department_location,
   })
+  console.log(editDepartmentData)
   const dispatch = useAppDispatch()
 
-  const updateRole = async () => {
+  const updateDepartment = async () => {
     try {
-      const res = await fetch(`/api/roles/${role.id}`, {
+      const res = await fetch(`/api/departments/${department.id}`, {
         method: 'PATCH',
         headers: {
           Authorization: 'Bearer ' + Cookies.get('access_token'),
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(editRoleData),
+        body: JSON.stringify({
+          ...editDepartmentData,
+          location: editDepartmentData.department_location,
+        }),
       })
+
       if (res.ok) {
         console.log('success')
-        dispatch(setDashTab('roles'))
+        dispatch(setDashTab('departments'))
       } else {
         const result = await res.json()
         toast(result.message, { type: 'error' })
@@ -37,24 +43,43 @@ const UpdateRole = () => {
     <>
       <div className="mx-auto w-full">
         <div className="p-4 bg-white rounded shadow-md w-full max-w-md mx-auto">
-          <h2 className="text-2xl mb-4">Update Role ({role.role_name})</h2>
+          <h2 className="text-2xl mb-4">
+            Update Department ({department.department_name})
+          </h2>
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              updateRole()
+              updateDepartment()
             }}
           >
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2">
-                Role Name
+                Department Name
               </label>
               <input
                 type="text"
-                value={editRoleData.role_name}
+                value={editDepartmentData.department_name}
                 onChange={(e) =>
-                  setEditRoleData({
-                    ...editRoleData,
-                    role_name: e.target.value,
+                  setEditDepartmentData({
+                    ...editDepartmentData,
+                    department_name: e.target.value,
+                  })
+                }
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Department Location
+              </label>
+              <input
+                type="text"
+                value={editDepartmentData.department_location}
+                onChange={(e) =>
+                  setEditDepartmentData({
+                    ...editDepartmentData,
+                    department_location: e.target.value,
                   })
                 }
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -65,7 +90,7 @@ const UpdateRole = () => {
               <button
                 type="button"
                 className="bg-gray-600 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={() => dispatch(setDashTab('roles'))}
+                onClick={() => dispatch(setDashTab('departments'))}
               >
                 Cancel
               </button>
@@ -84,4 +109,4 @@ const UpdateRole = () => {
   )
 }
 
-export default UpdateRole
+export default UpdateDepartment

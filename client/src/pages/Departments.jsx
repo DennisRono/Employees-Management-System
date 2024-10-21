@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
+import { setCache } from '../store/slices/cacheSlice'
+import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 
 const Departments = () => {
   const [departments, setDepartments] = useState(null)
@@ -8,7 +11,7 @@ const Departments = () => {
   const [expandedDepartment, setExpandedDepartment] = useState(null)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
+  const fetchDepartments = async () => {
     fetch('/api/departments')
       .then((response) => response.json())
       .then((data) => {
@@ -18,6 +21,10 @@ const Departments = () => {
       .catch(() => {
         setLoading(false)
       })
+  }
+
+  useEffect(() => {
+    fetchDepartments()
   }, [])
 
   const toggleDepartment = (department_id) => {
@@ -25,6 +32,28 @@ const Departments = () => {
       setExpandedDepartment(null)
     } else {
       setExpandedDepartment(department_id)
+    }
+  }
+
+  const deleteDepartment = async (id) => {
+    try {
+      const response = await fetch(`/api/departments/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: 'Bearer ' + Cookies.get('access_token'),
+          'Content-Type': 'application/json',
+        },
+        redirect: 'follow',
+      })
+      if (!response.ok) {
+        const result = await response.json()
+        toast(result.message, { type: 'error' })
+      } else {
+        fetchDepartments()
+      }
+    } catch (error) {
+      toast(error.message, { type: 'error' })
+      console.error(error)
     }
   }
 
@@ -75,7 +104,7 @@ const Departments = () => {
                         <tr
                           key={index}
                           onClick={() =>
-                            toggleDepartment(department.department_id)
+                            toggleDepartment(department?.department_id)
                           }
                         >
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -90,7 +119,7 @@ const Departments = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {department.location}
+                              {department?.location}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -99,6 +128,7 @@ const Departments = () => {
                                 className="text-sm p-2 bg-red-600 rounded-md text-white font-bold hover:bg-red-800"
                                 onClick={(e) => {
                                   e.stopPropagation()
+                                  deleteDepartment(department?.department_id)
                                 }}
                               >
                                 Delete
@@ -107,6 +137,15 @@ const Departments = () => {
                                 className="text-sm p-2 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-800"
                                 onClick={(e) => {
                                   e.stopPropagation()
+                                  dispatch(
+                                    setCache({
+                                      id: department?.department_id,
+                                      department_name:
+                                        department?.department_name,
+                                      department_location: department?.location,
+                                    })
+                                  )
+                                  dispatch(setDashTab('updatedepartment'))
                                 }}
                               >
                                 Update

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
 
 const NewEmployee = () => {
   const [roles, setRoles] = useState([])
@@ -89,7 +90,7 @@ const NewEmployee = () => {
 
     if (validateForm()) {
       try {
-        const response = await fetch('/api/employees', {
+        const res = await fetch('/api/employees', {
           method: 'POST',
           headers: {
             Authorization: 'Bearer ' + Cookies.get('access_token'),
@@ -98,12 +99,10 @@ const NewEmployee = () => {
           body: JSON.stringify(formData),
         })
 
-        if (!response.ok) {
-          throw new Error('Error submitting form')
+        if (!res.ok) {
+          const result = await res.json()
+          toast(result.message, { type: 'error' })
         }
-
-        const data = await response.json()
-        console.log('Employee added successfully:', data)
 
         setFormData({
           first_name: '',
@@ -252,7 +251,14 @@ const NewEmployee = () => {
           </select>
         </div>
 
-        <div className="flex justify-end items-center">
+        <div className="flex justify-between items-center">
+          <button
+            type="button"
+            onClick={() => dispatch(setDashTab('employees'))}
+            className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            cancel
+          </button>
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
