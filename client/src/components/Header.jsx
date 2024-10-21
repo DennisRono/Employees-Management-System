@@ -1,4 +1,4 @@
-import { Menu, User } from 'lucide-react'
+import { Menu, User, BarChart2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 
@@ -11,8 +11,9 @@ const Header = () => {
           <button className="block lg:hidden p-2 text-gray-600 hover:text-gray-800">
             <Menu className="w-6 h-6" />
           </button>
-          <div className="text-2xl font-bold text-gray-800">
-            Employee Management
+          <div className="flex-shrink-0 flex items-center">
+            <BarChart2 className="h-8 w-8 text-blue-500" />
+            <span className="ml-2 text-xl font-semibold">EMS</span>
           </div>
         </div>
 

@@ -52,7 +52,11 @@ class Role(db.Model, SerializerMixin):
 
     employees = db.relationship("Employee", back_populates="role")
 
-    serialize_rules = ("-employees.role",)
+    serialize_rules = (
+        "-employees.role",
+        "-employees.password",
+        "-employees.department.administrators.password",
+    )
 
 
 class Customer(db.Model, SerializerMixin):

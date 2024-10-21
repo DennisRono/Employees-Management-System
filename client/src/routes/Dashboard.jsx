@@ -5,7 +5,7 @@ import {
   Users,
   AlignHorizontalJustifyStart,
   UsersRound,
-  HousePlus,
+  BriefcaseBusiness,
 } from 'lucide-react'
 import Dash from '../pages/Dash'
 import AllEmployees from '../pages/AllEmployees'
@@ -15,6 +15,10 @@ import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
 import NewEmployee from '../pages/NewEmployee'
 import NewDepartment from '../pages/NewDepartment'
+import Roles from '../pages/Roles'
+import Role from '../pages/Role'
+import NewRole from '../pages/NewRole'
+import UpdateRole from '../pages/UpdateRole'
 
 const Dashboard = () => {
   const playtab = useAppSelector((state) => state.dashtab).tab
@@ -43,9 +47,9 @@ const Dashboard = () => {
       key: 'customers',
     },
     {
-      name: 'New Department',
-      icon: <HousePlus style={{ color: '#fff', fontSize: 18 }} />,
-      key: 'newdepartment',
+      name: 'Roles',
+      icon: <BriefcaseBusiness style={{ color: '#fff', fontSize: 18 }} />,
+      key: 'roles',
     },
   ]
   return (
@@ -85,6 +89,14 @@ const Dashboard = () => {
             <NewEmployee />
           ) : playtab === 'newdepartment' ? (
             <NewDepartment />
+          ) : playtab === 'roles' ? (
+            <Roles />
+          ) : playtab === 'role' ? (
+            <Role />
+          ) : playtab === 'newrole' ? (
+            <NewRole />
+          ) : playtab === 'updaterole' ? (
+            <UpdateRole />
           ) : (
             <Dash />
           )}

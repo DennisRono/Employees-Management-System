@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import dashTabReducer from './slices/dashtabSlice'
+import cacheReducer from './slices/cacheSlice'
 import { persistReducer, persistStore } from 'redux-persist'
 import { combineReducers } from 'redux'
 import storage from './useWebStorage'
@@ -11,6 +12,7 @@ const persistConfig = {
 
 const allReducers = combineReducers({
   dashtab: dashTabReducer,
+  cache: cacheReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, allReducers)

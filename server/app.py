@@ -126,7 +126,7 @@ class RoleResource(Resource):
 
     def get(self, role_id=None):
         if role_id:
-            role = Role.query.filter(Role.id == role_id).first()
+            role = Role.query.filter(Role.role_id == role_id).first()
             return make_response(jsonify(role.to_dict()), 200)
         else:
             roles = Role.query.all()
@@ -144,7 +144,7 @@ class RoleResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def patch(self, role_id):
-        role = Role.query.filter(Role.id == role_id).first()
+        role = Role.query.filter(Role.role_id == role_id).first()
         data = request.get_json()
         role.role_name = data.get("role_name", role.role_name)
         db.session.commit()
@@ -153,22 +153,25 @@ class RoleResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def delete(self, role_id):
-        role = Role.query.filter(Role.id == role_id).first()
+        role = Role.query.filter(Role.role_id == role_id).first()
         db.session.delete(role)
         db.session.commit()
-        return make_response(jsonify({"message": f"Role {role.id} deleted"}), 204)
+        return make_response(jsonify({"message": f"Role {role.role_id} deleted"}), 204)
 
 
 class CustomerResource(Resource):
     def get(self, customer_id=None):
 
         if customer_id:
-            customer = Customer.query.filter(Customer.id == customer_id).first()
+            customer = Customer.query.filter(
+                Customer.customer_id == customer_id
+            ).first()
             if customer:
                 return make_response(jsonify(customer.to_dict()), 200)
             else:
                 return make_response(
-                    jsonify({"error": f"customer {customer.id} not found"}), 404
+                    jsonify({"error": f"customer {customer.customer_id} not found"}),
+                    404,
                 )
         else:
             customers = Customer.query.all()
@@ -202,11 +205,11 @@ class CustomerResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def delete(self, customer_id):
-        customer = Customer.query.filter(Customer.id == customer_id).first()
+        customer = Customer.query.filter(Customer.customer_id == customer_id).first()
         db.session.delete(customer)
         db.session.commit()
         return make_response(
-            jsonify({"message": f"Customer {customer.id} deleted"}), 204
+            jsonify({"message": f"Customer {customer.customer_id} deleted"}), 204
         )
 
 
@@ -215,13 +218,16 @@ class AdministratorResource(Resource):
 
         if admin_id:
             administrator = Administrator.query.filter(
-                Administrator.id == admin_id
+                Administrator.admin_id == admin_id
             ).first()
             if administrator:
                 return make_response(jsonify(administrator.to_dict()), 200)
             else:
                 return make_response(
-                    jsonify({"error": f"Admistrator {administrator.id} not found"}), 404
+                    jsonify(
+                        {"error": f"Admistrator {administrator.admin_id} not found"}
+                    ),
+                    404,
                 )
         else:
             administrators = Administrator.query.all()
@@ -245,7 +251,7 @@ class AdministratorResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def patch(self, admin_id):
-        admin = Administrator.query.filter(Administrator.id == admin_id).first()
+        admin = Administrator.query.filter(Administrator.admin_id == admin_id).first()
         if not admin:
             return make_response(jsonify({"error": "Admin not found"}), 404)
         data = request.get_json()
@@ -259,11 +265,11 @@ class AdministratorResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def delete(self, admin_id):
-        admin = Administrator.query.filter(Administrator.id == admin_id).first()
+        admin = Administrator.query.filter(Administrator.admin_id == admin_id).first()
         db.session.delete(admin)
         db.session.commit()
         return make_response(
-            jsonify({"message": f"Administrator {admin.id} deleted"}), 204
+            jsonify({"message": f"Administrator {admin.admin_id} deleted"}), 204
         )
 
 

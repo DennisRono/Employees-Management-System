@@ -1,33 +1,33 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
-import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { setCache } from '../store/slices/cacheSlice'
 
-const AllEmployees = () => {
-  const [employees, setEmployees] = useState(null)
+const Roles = () => {
+  const [roles, setRoles] = useState(null)
   const [loading, setLoading] = useState(true)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
 
-  const fetchAllEmployees = async () => {
+  const fetchAllRoles = async () => {
     setLoading(true)
-    const res = await fetch('/api/employees')
+    const res = await fetch('/api/roles')
     const data = await res.json()
     setLoading(false)
     if (res.ok) {
-      setEmployees(data)
+      setRoles(data)
     } else {
       console.log('Error Fetching data')
     }
   }
+
   useEffect(() => {
-    fetchAllEmployees()
+    fetchAllRoles()
   }, [])
 
-  const deleteEmployee = async (id) => {
+  const deleteRole = async (id) => {
     try {
-      const response = await fetch(`/api/employees/${id}`, {
+      const response = await fetch(`/api/roles/${id}`, {
         method: 'DELETE',
         headers: {
           Authorization: 'Bearer ' + Cookies.get('access_token'),
@@ -37,14 +37,15 @@ const AllEmployees = () => {
       })
       const result = await response.text()
       console.log(result)
-      fetchAllEmployees()
+      fetchAllRoles()
     } catch (error) {
       console.error(error)
     }
   }
+
   return (
     <>
-      <div className="mx-auto">
+      <div className="mx-auto w-full">
         {loading ? (
           <div className="flex justify-center items-center h-64">
             {/* Loading animation */}
@@ -53,54 +54,38 @@ const AllEmployees = () => {
         ) : (
           <div className="overflow-x-auto">
             <div className="flex items-center justify-between mb-2">
-              <h1 className="my-2 text-2xl ml-2">All Employees</h1>
+              <h1 className="my-2 text-2xl ml-2">All Roles</h1>
               <button
-                onClick={() => dispatch(setDashTab('newemployee'))}
+                onClick={() => dispatch(setDashTab('newrole'))}
                 className="mr-2 bg-green-600 hover:bg-green-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
-                New Employee
+                New Role
               </button>
             </div>
-            {employees && employees.length > 0 ? (
+            {roles && roles.length > 0 ? (
               <table className="min-w-full bg-white border border-gray-200">
                 <thead>
                   <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                    <th className="py-3 px-6 text-left">ID</th>
-                    <th className="py-3 px-6 text-left">Full Name</th>
-                    <th className="py-3 px-6 text-left">Email</th>
-                    <th className="py-3 px-6 text-left">Phone Number</th>
-                    <th className="py-3 px-6 text-left">Role</th>
-                    <th className="py-3 px-6 text-left">Department</th>
+                    <th className="py-3 px-6 text-left">Role ID</th>
+                    <th className="py-3 px-6 text-left">Role Name</th>
+                    <th className="py-3 px-6 text-left">Employee Count</th>
                     <th className="py-3 px-6 text-left">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="text-black font-light">
-                  {employees.map((employee) => (
+                  {roles.map((role) => (
                     <tr
-                      key={employee.employee_id}
+                      key={role.role_id}
                       className="border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-                      onClick={() =>
-                        navigate(`/employee/${employee.employee_id}`)
-                      }
+                      onClick={() => {
+                        dispatch(setCache(role.role_id))
+                        dispatch(setDashTab('role'))
+                      }}
                     >
+                      <td className="py-3 px-6 text-left">{role.role_id}</td>
+                      <td className="py-3 px-6 text-left">{role.role_name}</td>
                       <td className="py-3 px-6 text-left">
-                        {employee?.employee_id}
-                      </td>
-                      <td className="py-3 px-6 text-left">
-                        <span>
-                          {employee?.first_name} {employee?.last_name}
-                        </span>
-                      </td>
-
-                      <td className="py-3 px-6 text-left">{employee?.email}</td>
-                      <td className="py-3 px-6 text-left">
-                        {employee?.phone_number || 'N/A'}
-                      </td>
-                      <td className="py-3 px-6 text-left">
-                        {employee.role?.role_name || 'N/A'}
-                      </td>
-                      <td className="py-3 px-6 text-left">
-                        {employee.department?.department_name || 'N/A'}
+                        {role?.employees?.length || 0}
                       </td>
                       <td
                         className="py-3 px-6 text-left"
@@ -113,7 +98,7 @@ const AllEmployees = () => {
                             className="text-sm p-2 bg-red-600 rounded-md text-white font-bold hover:bg-red-800"
                             onClick={(e) => {
                               e.stopPropagation()
-                              deleteEmployee(employee.employee_id)
+                              deleteRole(role.role_id)
                             }}
                           >
                             Delete
@@ -122,7 +107,13 @@ const AllEmployees = () => {
                             className="text-sm p-2 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-800"
                             onClick={(e) => {
                               e.stopPropagation()
-                              deleteEmployee(employee.employee_id)
+                              dispatch(
+                                setCache({
+                                  id: role.role_id,
+                                  role_name: role.role_name,
+                                })
+                              )
+                              dispatch(setDashTab('updaterole'))
                             }}
                           >
                             Update
@@ -134,7 +125,7 @@ const AllEmployees = () => {
                 </tbody>
               </table>
             ) : (
-              <p className="text-center text-gray-500">No employees found.</p>
+              <p className="text-center text-gray-500">No roles found.</p>
             )}
           </div>
         )}
@@ -143,4 +134,4 @@ const AllEmployees = () => {
   )
 }
 
-export default AllEmployees
+export default Roles
