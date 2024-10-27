@@ -13,6 +13,7 @@ sqlalchemy-serializer = "*"
 python-dotenv = "*"
 faker = "*"
 flask-jwt-extended = "*"
+gunicorn = "*"
 
 [dev-packages]
 
