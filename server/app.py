@@ -54,6 +54,7 @@ class EmployeeResource(Resource):
     def patch(self, employee_id):
         employee = Employee.query.filter(Employee.employee_id == employee_id).first()
         data = request.get_json()
+        print(data)
         employee.first_name = data.get("first_name", employee.first_name)
         employee.last_name = data.get("last_name", employee.last_name)
         employee.email = data.get("email", employee.email)
@@ -81,7 +82,9 @@ class EmployeeResource(Resource):
 class DepartmentResource(Resource):
     def get(self, department_id=None):
         if department_id:
-            department = Department.query.filter(Department.id == department_id).first()
+            department = Department.query.filter(
+                Department.department_id == department_id
+            ).first()
             if department:
                 return make_response(jsonify(department.to_dict()), 200)
         else:
@@ -102,7 +105,9 @@ class DepartmentResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def patch(self, department_id):
-        department = Department.query.filter(Department.id == department_id).first()
+        department = Department.query.filter(
+            Department.department_id == department_id
+        ).first()
         data = request.get_json()
         department.department_name = data.get(
             "department_name", department.department_name
@@ -114,11 +119,13 @@ class DepartmentResource(Resource):
     @jwt_required(optional=True)
     @roles_required("admin")
     def delete(self, department_id):
-        department = Department.query.filter(Department.id == department_id).first()
+        department = Department.query.filter(
+            Department.department_id == department_id
+        ).first()
         db.session.delete(department)
         db.session.commit()
         return make_response(
-            jsonify({"message": f"Department {department.id} deleted"}), 204
+            jsonify({"message": f"Department {department.department_id} deleted"}), 204
         )
 
 

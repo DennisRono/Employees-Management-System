@@ -3,6 +3,7 @@ import { useAppDispatch } from '../store/hooks'
 import { setDashTab } from '../store/slices/dashtabSlice'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { setCache } from '../store/slices/cacheSlice'
 
 const AllEmployees = () => {
   const [employees, setEmployees] = useState(null)
@@ -122,7 +123,18 @@ const AllEmployees = () => {
                             className="text-sm p-2 bg-blue-600 rounded-md text-white font-bold hover:bg-blue-800"
                             onClick={(e) => {
                               e.stopPropagation()
-                              deleteEmployee(employee.employee_id)
+                              dispatch(
+                                setCache({
+                                  id: employee?.employee_id,
+                                  first_name: employee?.first_name,
+                                  last_name: employee?.last_name,
+                                  email: employee?.email,
+                                  phone_number: employee?.phone_number,
+                                  department_id: employee?.department_id,
+                                  role_id: employee?.role_id,
+                                })
+                              )
+                              dispatch(setDashTab('updatemployee'))
                             }}
                           >
                             Update

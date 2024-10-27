@@ -35,9 +35,11 @@ def roles_required(*roles):
                 user = Employee.query.filter_by(employee_id=identity).first()
 
                 if user is None or user.role is None:
-                    return {
-                        "message": "Access unauthorized. User not authenticated or no role assigned."
-                    }, 403
+                    admin = Administrator.query.filter_by(admin_id=identity).first()
+                    if admin is None:
+                        return {
+                            "message": "Access unauthorized. User not authenticated or no role assigned."
+                        }, 403
 
                 return fn(*args, **kwargs)
             except NoAuthorizationError:
@@ -240,7 +242,11 @@ class AdminLogin(Resource):
         # Generate access and refresh tokens for admin
         access_token = create_access_token(identity=user.admin_id)
         refresh_token = create_refresh_token(identity=user.admin_id)
-        return {"access_token": access_token, "refresh_token": refresh_token}
+        return {
+            "access_token": access_token,
+            "refresh_token": refresh_token,
+            "name": f"{user.admin_name}",
+        }
 
     @jwt_required(refresh=True)
     def get(self):
