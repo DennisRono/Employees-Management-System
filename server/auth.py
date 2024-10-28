@@ -65,6 +65,16 @@ def check_if_token_is_revoked(jwt_header, jwt_payload: dict):
     return token_in_blocklist is not None
 
 
+@auth.errorhandler(NoAuthorizationError)
+def handle_auth_error(e):
+    return jsonify({"message": "Missing or invalid Authorization token"}), 401
+
+
+@auth.errorhandler(Exception)
+def handle_generic_error(e):
+    return jsonify({"message": "An unexpected error occurred", "error": str(e)}), 500
+
+
 user_register_args = reqparse.RequestParser()
 user_register_args.add_argument(
     "first_name",
