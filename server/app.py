@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
-from server.models import db, Employee, Department, Role, Customer, Administrator
+from .models import db, Employee, Department, Role, Customer, Administrator
 from config import Config
 from auth import auth, roles_required
 from flask_jwt_extended import JWTManager, jwt_required
