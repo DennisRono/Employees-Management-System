@@ -23,8 +23,8 @@ const NewEmployee = () => {
     const fetchRolesAndDepartments = async () => {
       try {
         const [rolesResponse, departmentsResponse] = await Promise.all([
-          fetch(`${process.env.VITE_BACKEND_URL}/roles`),
-          fetch(`${process.env.VITE_BACKEND_URL}/departments`),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/roles`),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/departments`),
         ])
 
         const rolesData = await rolesResponse.json()
@@ -90,14 +90,17 @@ const NewEmployee = () => {
 
     if (validateForm()) {
       try {
-        const res = await fetch(`${process.env.VITE_BACKEND_URL}/employees`, {
-          method: 'POST',
-          headers: {
-            Authorization: 'Bearer ' + Cookies.get('access_token'),
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        })
+        const res = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/employees`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: 'Bearer ' + Cookies.get('access_token'),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        )
 
         if (!res.ok) {
           const result = await res.json()

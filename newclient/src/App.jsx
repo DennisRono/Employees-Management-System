@@ -3,7 +3,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => {
-  console.log(process.env.VITE_BACKEND_URL)
+  console.log(process.env.REACT_APP_BACKEND_URL)
   return (
     <>
       <ToastContainer />
