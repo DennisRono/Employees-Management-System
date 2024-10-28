@@ -152,7 +152,7 @@ def seed_admin_departments(administrators, departments):
 
 def seed_data():
     # Clear any existing data in the database
-    clear_data()
+    # clear_data()
 
     # Seed departments and roles
     departments = seed_departments()
