@@ -28,3 +28,13 @@ sqlalchemy==2.0.29
 sqlalchemy-serializer==1.4.22
 typing-extensions==4.12.2
 werkzeug==3.0.6
+flask
+flask-cors
+flask-sqlalchemy
+flask-migrate
+flask-restful
+sqlalchemy-serializer
+python-dotenv
+faker
+flask-jwt-extended
+gunicorn
