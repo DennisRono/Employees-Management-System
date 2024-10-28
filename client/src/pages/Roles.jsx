@@ -11,7 +11,7 @@ const Roles = () => {
 
   const fetchAllRoles = async () => {
     setLoading(true)
-    const res = await fetch(`${process.env.VITE_BACKEND_URL}/roles`)
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/roles`)
     const data = await res.json()
     setLoading(false)
     if (res.ok) {

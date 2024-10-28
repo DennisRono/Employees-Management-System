@@ -13,7 +13,7 @@ const AllEmployees = () => {
 
   const fetchAllEmployees = async () => {
     setLoading(true)
-    const res = await fetch(`${process.env.VITE_BACKEND_URL}/employees`)
+    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/employees`)
     const data = await res.json()
     setLoading(false)
     if (res.ok) {

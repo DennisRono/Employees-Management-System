@@ -12,7 +12,7 @@ const Departments = () => {
   const dispatch = useAppDispatch()
 
   const fetchDepartments = async () => {
-    fetch(`${process.env.VITE_BACKEND_URL}/departments`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/departments`)
       .then((response) => response.json())
       .then((data) => {
         setDepartments(data)
