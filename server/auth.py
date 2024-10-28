@@ -14,7 +14,7 @@ from datetime import timezone
 from functools import wraps
 from flask_jwt_extended.exceptions import NoAuthorizationError
 
-from models import Employee, Administrator, Role, Department, db, TokenBlocklist
+from .models import Employee, Administrator, Role, Department, db, TokenBlocklist
 
 jwt = JWTManager()
 

@@ -1,6 +1,6 @@
 from faker import Faker
-from app import db, app
-from models import (
+from .app import db, app
+from .models import (
     Employee,
     Department,
     Role,
