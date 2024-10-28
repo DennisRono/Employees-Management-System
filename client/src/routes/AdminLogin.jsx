@@ -16,7 +16,7 @@ const AdminLogin = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/login-admin`,
+        `${process.env.VITE_BACKEND_URL}/auth/login-admin`,
         {
           method: 'POST',
           headers: {
