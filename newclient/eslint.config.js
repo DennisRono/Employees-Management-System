@@ -21,7 +21,7 @@ export default [
       },
       env: {
         browser: true,
-        node: true, // Add this line
+        node: true,
       },
     },
     settings: { react: { version: '18.3' } },
