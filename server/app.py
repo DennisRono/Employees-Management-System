@@ -18,6 +18,9 @@ db.init_app(app)
 migrate = Migrate(app, db)
 api = Api(app)
 
+with app.app_context():
+    db.create_all()
+
 
 class EmployeeResource(Resource):
     def get(self, employee_id=None):
