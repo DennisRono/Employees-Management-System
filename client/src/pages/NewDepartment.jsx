@@ -40,14 +40,17 @@ const NewDepartment = () => {
 
     if (validateForm()) {
       try {
-        const response = await fetch('/api/departments', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Bearer ' + Cookies.get('access_token'),
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        })
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/departments`,
+          {
+            method: 'POST',
+            headers: {
+              Authorization: 'Bearer ' + Cookies.get('access_token'),
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData),
+          }
+        )
 
         if (!response.ok) {
           throw new Error('Error submitting form')

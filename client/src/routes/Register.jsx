@@ -24,8 +24,8 @@ const Register = () => {
     const fetchRolesAndDepartments = async () => {
       try {
         const [rolesResponse, departmentsResponse] = await Promise.all([
-          fetch('/api/roles'),
-          fetch('/api/departments'),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/roles`),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/departments`),
         ])
 
         const rolesData = await rolesResponse.json()
@@ -73,14 +73,17 @@ const Register = () => {
 
     // Send form data to the registration endpoint
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          Authorization: 'Bearer ' + Cookies.get('access_token'),
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/register`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + Cookies.get('access_token'),
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      )
 
       if (response.ok) {
         navigate('/employees')

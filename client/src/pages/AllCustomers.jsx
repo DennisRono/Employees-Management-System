@@ -6,7 +6,7 @@ const AllCustomers = () => {
   const [expandedCustomer, setExpandedCustomer] = useState(null) // Track expanded customer
 
   useEffect(() => {
-    fetch('/api/customers')
+    fetch(`${process.env.REACT_APP_BACKEND_URL}/customers`)
       .then((response) => response.json())
       .then((data) => {
         setAllCustomers(data)

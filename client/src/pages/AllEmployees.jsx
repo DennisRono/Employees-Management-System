@@ -13,7 +13,7 @@ const AllEmployees = () => {
 
   const fetchAllEmployees = async () => {
     setLoading(true)
-    const res = await fetch('/api/employees')
+    const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/employees`)
     const data = await res.json()
     setLoading(false)
     if (res.ok) {
