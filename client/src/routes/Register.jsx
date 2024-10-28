@@ -24,8 +24,8 @@ const Register = () => {
     const fetchRolesAndDepartments = async () => {
       try {
         const [rolesResponse, departmentsResponse] = await Promise.all([
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/roles`),
-          fetch(`${process.env.REACT_APP_BACKEND_URL}/departments`),
+          fetch(`${process.env.VITE_BACKEND_URL}/roles`),
+          fetch(`${process.env.VITE_BACKEND_URL}/departments`),
         ])
 
         const rolesData = await rolesResponse.json()
@@ -74,7 +74,7 @@ const Register = () => {
     // Send form data to the registration endpoint
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/auth/register`,
+        `${process.env.VITE_BACKEND_URL}/auth/register`,
         {
           method: 'POST',
           headers: {

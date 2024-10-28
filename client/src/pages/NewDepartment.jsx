@@ -41,7 +41,7 @@ const NewDepartment = () => {
     if (validateForm()) {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/departments`,
+          `${process.env.VITE_BACKEND_URL}/departments`,
           {
             method: 'POST',
             headers: {
