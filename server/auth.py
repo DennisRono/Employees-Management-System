@@ -196,8 +196,7 @@ class Logout(Resource):
 
 
 class AdminRegister(Resource):
-    @jwt_required()
-    @roles_required("admin")
+
     def post(self):
         data = user_register_args.parse_args()
         user = Administrator.query.filter_by(email=data.get("email")).first()
