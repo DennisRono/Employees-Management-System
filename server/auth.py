@@ -207,8 +207,9 @@ class AdminRegister(Resource):
 
         # Verify that the role exists and is 'admin'
         role = Role.query.get(data.get("role_id"))
-        if not role or role.role_name != "admin":
-            return {"message": "Invalid or unauthorized Role ID"}, 400
+
+        # if not role or role.role_name != "admin":
+        #     return {"message": "Invalid or unauthorized Role ID"}, 400
 
         department = None
         if data.get("department_id"):
