@@ -92,6 +92,37 @@ def seed_customers(num_customers=20):
 def seed_administrators(num_administrators=5):
     administrators = []
     with open(PASSWORDS_FILE, "a") as f:
+        admins = [
+            {
+                "name": "Benn Kaiser",
+                "email": "laura72@example.net",
+                "phone": "0712345358",
+                "password": ")$jR+d2)I6",
+            },
+            {
+                "name": "Benn Kaiser",
+                "email": "josephhale@example.org",
+                "phone": "0712345355",
+                "password": "(FR85tjDe8",
+            },
+            {
+                "name": "Benn Kaiser",
+                "email": "bennkaiser1@gmail.com",
+                "phone": "0712345354",
+                "password": "123456",
+            },
+        ]
+        for ad in admins:
+            admin = Administrator(
+                admin_name=ad["name"],
+                role=ad["role"],
+                email=ad["email"],
+                phone_number=ad["phone"],
+                password=generate_password_hash(ad["password"]),
+            )
+            administrators.append(admin)
+            db.session.add(admin)
+
         for _ in range(num_administrators):
             plain_password = faker.password()
             hashed_password = generate_password_hash(plain_password)
