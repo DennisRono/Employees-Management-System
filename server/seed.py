@@ -115,7 +115,6 @@ def seed_administrators(num_administrators=5):
         for ad in admins:
             admin = Administrator(
                 admin_name=ad["name"],
-                role=ad["role"],
                 email=ad["email"],
                 phone_number=ad["phone"],
                 password=generate_password_hash(ad["password"]),
